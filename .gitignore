@@ -1,0 +1,23 @@
+# Maven
+target/
+*.class
+
+# Logs
+*.log
+
+# NetBeans
+nbproject/private/
+build/
+dist/
+
+# IDEs
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.bak
