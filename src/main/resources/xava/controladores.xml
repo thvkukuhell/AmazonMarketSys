@@ -2,34 +2,12 @@
 
 <!DOCTYPE controladores SYSTEM "dtds/controladores.dtd">
 
-<!-- 
-Documentación sobre controladores: 
-https://www.openxava.org/OpenXavaDoc/docs/controllers_es.html
-
-Controladores por defecto, incluidos en OpenXava (puedes extender de ellos):
-https://github.com/openxava/openxava/blob/master/openxava/src/main/resources/xava/default-controllers.xml
- 
-Ejemplos de controladores (de la aplicación de pruebas):
-https://github.com/openxava/openxava/blob/master/openxavatest/src/main/resources/xava/controllers.xml
--->
-
 <controladores>
     
-    <!-- Variable de entorno: 
-    <var-entorno nombre="amazonmarketsys_ANYO_DEFECTO" valor="2015"/>
-    -->
-    
-    <!-- Objeto de sesión:
-    <Objeto nombre="amazonmarketsys_anyoActivo" clase="java.lang.Integer" valor="2015" 
-            ambito="global"/>
-    -->
-    
-    <!-- Controlador:
-    <controlador nombre="Profesor">
+    <controlador nombre="Compra">
         <hereda-de controlador="Typical"/>
-        <accion nombre="new" icono="plus-box-multiple" atajo-de-teclado="Control N" 
-                clase="acciones.CrearProfesor"/>        
+        <accion nombre="registrarCompra" modo="detail"
+            clase="com.amazonmarket.amazonmarketsys.actions.RegistrarCompraAction"/>
     </controlador>
-    -->
     
 </controladores>

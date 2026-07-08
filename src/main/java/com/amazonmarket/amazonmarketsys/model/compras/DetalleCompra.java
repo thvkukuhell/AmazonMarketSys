@@ -1,13 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.amazonmarket.amazonmarketsys.model.compras;
 
-/**
- *
- * @author Hellen
- */
+import java.math.*;
+import javax.persistence.*;
+import org.openxava.annotations.*;
+import lombok.*;
+
+@Embeddable
+@Getter @Setter
 public class DetalleCompra {
     
+    @Column(length=30)
+    @Required
+    String codigoProducto;
+    
+    @Column(length=100)
+    @Required
+    String nombreProducto;
+    
+    int cantidad;
+    
+    @Money
+    BigDecimal precioUnitario = BigDecimal.ZERO;
+    
+    @Money
+    BigDecimal subtotal = BigDecimal.ZERO;
+    
+    public void calcularSubtotal() {
+        if (cantidad <= 0 || precioUnitario == null) {
+            subtotal = BigDecimal.ZERO;
+        } else {
+            subtotal = precioUnitario.multiply(new BigDecimal(cantidad));
+        }
+    }
 }
