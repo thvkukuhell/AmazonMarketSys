@@ -1,13 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.amazonmarket.amazonmarketsys.validators;
 
-/**
- *
- * @author Hellen
- */
+import java.math.BigDecimal;
+
 public class PrecioVentaValidator {
+    private PrecioVentaValidator() {
+    }
     
+    public static boolean esPrecioValido(BigDecimal precio) {
+        return precio != null && precio.compareTo(BigDecimal.ZERO) > 0;
+    }
+    
+    public static boolean esDescuentoValido(BigDecimal descuento, BigDecimal importe) {
+        if (descuento == null || importe == null) {
+            return false;
+        }
+        
+        return descuento.compareTo(BigDecimal.ZERO) >= 0
+               && descuento.compareTo(importe) <= 0;
+    }
 }

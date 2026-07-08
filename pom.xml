@@ -10,9 +10,16 @@
 	<properties>
 		<openxava.version>7.7.3</openxava.version>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-		<!-- Las aplicaciones OpenXava funcionan bien con Java 1.8, 11, 17, 21 y 25 -->
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		
+                <!-- Java usado en el proyecto -->
+                <maven.compiler.source>17</maven.compiler.source>
+                <maven.compiler.target>17</maven.compiler.target>
+
+                <!-- Versiones de pruebas -->
+                <junit.version>5.10.2</junit.version>
+                <mockito.version>5.23.0</mockito.version>
+                <jacoco.version>0.8.11</jacoco.version>
+                <lombok.version>1.18.40</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -35,14 +42,22 @@
 		internet por la dependencia maven para tu base de datos y añádela
 		aquí tu mismo.
 		-->
+                
+                        <!-- Lombok: @Getter, @Setter, etc. -->
+                <dependency>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                    <version>${lombok.version}</version>
+                    <scope>provided</scope>
+                </dependency>
 		
-		<!-- MySQL 
+		<!-- MySQL -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>		
     		<version>9.7.0</version>
 		</dependency>
-		-->
+		
 		
 		<!-- PostgreSQL 
 		<dependency>
@@ -99,114 +114,160 @@
 			<version>5.0.12.java8</version>
 		</dependency>
 		-->
+                
+                <!-- JUnit 5 -->
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-api</artifactId>
+                    <version>${junit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-engine</artifactId>
+                    <version>${junit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <!-- Mockito para pruebas con simulación de dependencias -->
+                <dependency>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-junit-jupiter</artifactId>
+                    <version>${mockito.version}</version>
+                    <scope>test</scope>
+                </dependency>
 		
 	</dependencies>
 
 	<build>
 		<finalName>amazonmarketsys</finalName>
 		<plugins>
-		
-	        <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-compiler-plugin</artifactId>
-	            <version>3.12.0</version>
-	            <configuration>
-	                <source>${maven.compiler.source}</source>
-	                <target>${maven.compiler.target}</target>
-	                <encoding>${project.build.sourceEncoding}</encoding>
-	                <annotationProcessorPaths>
-	                    <path>
-	                        <groupId>org.projectlombok</groupId>
-	                        <artifactId>lombok</artifactId>
-	                        <version>1.18.40</version>
-	                    </path>
-	                </annotationProcessorPaths>
-	            </configuration>
-	        </plugin>
-        			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>package</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.openxava</groupId>
-									<artifactId>openxava</artifactId>
-									<version>${openxava.version}</version>
-									<outputDirectory>src/main/resources</outputDirectory>
-									<includes>xava/dtds/*</includes>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-					<execution>
-						<id>unpack-agents-examples</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.openxava</groupId>
-									<artifactId>openxava-agents-examples</artifactId>
-									<version>${openxava.version}</version>
-									<outputDirectory>.xava</outputDirectory>
-									<includes>agents/**</includes>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>crear-carpeta-test-annotations</id>
+                                <phase>generate-test-sources</phase>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${project.build.directory}/generated-test-sources/test-annotations"/>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.2</version>
-				<configuration>
-					<packagingExcludes>WEB-INF/lib/ecj-3*.jar,
-						WEB-INF/lib/fontbox-*.jar,
-						WEB-INF/lib/htmlunit-*.jar,
-						WEB-INF/lib/httpclient-*.jar,
-						WEB-INF/lib/httpcore-*.jar,
-						WEB-INF/lib/httpmime-*.jar,
-						WEB-INF/lib/jetty-*.jar,
-						WEB-INF/lib/junit-*.jar,
-						WEB-INF/lib/neko-htmlunit-*.jar,
-						WEB-INF/lib/pdfbox-*.jar,
-						WEB-INF/lib/serializer-*.jar,
-						WEB-INF/lib/tomcat-*.jar,
-						WEB-INF/lib/websocket-*.jar,
-						WEB-INF/lib/xalan-*.jar,
-						WEB-INF/lib/xercesImpl-*.jar,
-						WEB-INF/lib/xml-apis-*.jar</packagingExcludes>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.0</version> 
-				<configuration>
-					<mainClass>${project.groupId}.${project.artifactId}.run.${project.artifactId}</mainClass>
-				</configuration>
-			</plugin>
+                    <!-- Compilador Java + Lombok -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.15.0</version>
+                        <configuration>
+                            <source>17</source>
+                            <target>17</target>
+                            <proc>full</proc>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>org.projectlombok</groupId>
+                                    <artifactId>lombok</artifactId>
+                                    <version>${lombok.version}</version>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Plugin de dependencias de OpenXava -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-openxava-dtds</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.openxava</groupId>
+                                            <artifactId>openxava</artifactId>
+                                            <version>${openxava.version}</version>
+                                            <outputDirectory>src/main/resources</outputDirectory>
+                                            <includes>xava/dtds/*</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Generación del WAR para Tomcat -->
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.3.2</version>
+                        <configuration>
+                            <packagingExcludes>
+                                WEB-INF/lib/ecj-3*.jar,
+                                WEB-INF/lib/fontbox-*.jar,
+                                WEB-INF/lib/htmlunit-*.jar,
+                                WEB-INF/lib/httpclient-*.jar,
+                                WEB-INF/lib/httpcore-*.jar,
+                                WEB-INF/lib/httpmime-*.jar,
+                                WEB-INF/lib/jetty-*.jar,
+                                WEB-INF/lib/junit-*.jar,
+                                WEB-INF/lib/neko-htmlunit-*.jar,
+                                WEB-INF/lib/pdfbox-*.jar,
+                                WEB-INF/lib/serializer-*.jar,
+                                WEB-INF/lib/tomcat-*.jar,
+                                WEB-INF/lib/websocket-*.jar,
+                                WEB-INF/lib/xalan-*.jar,
+                                WEB-INF/lib/xercesImpl-*.jar,
+                                WEB-INF/lib/xml-apis-*.jar
+                            </packagingExcludes>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Ejecuta pruebas JUnit -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.2.5</version>
+                        <configuration>
+                            <skipTests>false</skipTests>
+                            <useModulePath>false</useModulePath>
+                        </configuration>
+                    </plugin>
+
+                    <!-- JaCoCo: genera reporte de cobertura -->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+
+                            <execution>
+                                <id>report</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 		</plugins>
 	</build>
 

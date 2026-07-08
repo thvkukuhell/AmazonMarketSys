@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.amazonmarket.amazonmarketsys.actions;
 
-/**
- *
- * @author Hellen
- */
-public class CerrarCajaAction {
-    
+import com.amazonmarket.amazonmarketsys.model.caja.Caja;
+import org.openxava.actions.ViewBaseAction;
+
+public class CerrarCajaAction extends ViewBaseAction {
+    @Override
+    public void execute() throws Exception {
+        getView().setValue("estado", Caja.EstadoCaja.CERRADA);
+        addMessage("Caja cerrada correctamente");
+    }
 }

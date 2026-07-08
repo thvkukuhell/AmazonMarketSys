@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.amazonmarket.amazonmarketsys.validators;
 
-/**
- *
- * @author Hellen
- */
+import com.amazonmarket.amazonmarketsys.model.caja.Caja;
+
 public class CajaAbiertaValidator {
+    private CajaAbiertaValidator() {
+    }
     
+    public static boolean cajaEsAbierta(Caja caja) {
+        return caja != null && caja.estaAbierta();
+    }
 }
