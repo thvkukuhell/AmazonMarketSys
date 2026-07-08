@@ -2,9 +2,6 @@
 target/
 *.class
 
-# Logs
-*.log
-
 # NetBeans
 nbproject/private/
 build/
@@ -14,10 +11,13 @@ dist/
 .idea/
 .vscode/
 
-# OS
+# Logs
+*.log
+
+# Sistema operativo
 .DS_Store
 Thumbs.db
 
-# Archivos temporales
+# Temporales
 *.tmp
 *.bak
