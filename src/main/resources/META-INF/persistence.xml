@@ -45,8 +45,6 @@
         <!-- Ventas -->
         <class>com.amazonmarket.amazonmarketsys.model.ventas.Venta</class>
         <class>com.amazonmarket.amazonmarketsys.model.ventas.DetalleVenta</class>
-        <class>com.amazonmarket.amazonmarketsys.model.ventas.Comprobante</class>
-        <class>com.amazonmarket.amazonmarketsys.model.ventas.MetodoPago</class>
         <class>com.amazonmarket.amazonmarketsys.model.ventas.PagoVenta</class>
 
         <!-- Caja -->

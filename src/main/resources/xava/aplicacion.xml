@@ -56,16 +56,6 @@
         <controlador nombre="Typical"/>
     </modulo>
 
-    <modulo nombre="Comprobante" carpeta="Ventas">
-        <modelo nombre="Comprobante"/>
-        <controlador nombre="Typical"/>
-    </modulo>
-
-    <modulo nombre="MetodoPago" carpeta="Ventas">
-        <modelo nombre="MetodoPago"/>
-        <controlador nombre="Typical"/>
-    </modulo>
-
     <modulo nombre="Caja" carpeta="Caja">
         <modelo nombre="Caja"/>
         <controlador nombre="Caja"/>

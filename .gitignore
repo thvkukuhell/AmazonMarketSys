@@ -21,3 +21,14 @@ Thumbs.db
 # Temporales
 *.tmp
 *.bak
+
+# Base de datos local HSQLDB generada automáticamente
+data/*.lck
+data/*.log
+data/*.properties
+data/*.script
+data/*.tmp
+data/*-db.tmp/
+
+# Archivos generados por Maven
+target/
