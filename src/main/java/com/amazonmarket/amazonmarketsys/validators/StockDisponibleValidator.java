@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.amazonmarket.amazonmarketsys.validators;
 
-/**
- *
- * @author Hellen
- */
 public class StockDisponibleValidator {
-    
+    private StockDisponibleValidator() {
+    }
+
+    public static boolean esCantidadValida(int cantidad) {
+        return cantidad > 0;
+    }
+
+    public static boolean haySuficienteStock(int stockActual, int cantidadSolicitada) {
+        return esCantidadValida(cantidadSolicitada) && stockActual >= cantidadSolicitada;
+    }
 }

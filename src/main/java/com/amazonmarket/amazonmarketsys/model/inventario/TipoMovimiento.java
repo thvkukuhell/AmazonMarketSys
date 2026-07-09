@@ -1,13 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.amazonmarket.amazonmarketsys.model.inventario;
 
-/**
- *
- * @author Hellen
- */
-public class TipoMovimiento {
-    
+public enum TipoMovimiento {
+    ENTRADA_COMPRA,
+    SALIDA_VENTA,
+    AJUSTE_POSITIVO,
+    AJUSTE_NEGATIVO,
+    MERMA,
+    DEVOLUCION;
+
+    public boolean esIncremento() {
+        return this == ENTRADA_COMPRA || this == AJUSTE_POSITIVO || this == DEVOLUCION;
+    }
 }

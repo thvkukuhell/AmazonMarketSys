@@ -1,13 +1,76 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.amazonmarket.amazonmarketsys.model.catalogo;
 
-/**
- *
- * @author Hellen
- */
+import java.math.BigDecimal;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.openxava.annotations.*;
+
+@Entity
+@Getter
+@Setter
+@View(members =
+    "Datos generales { codigo; nombre; descripcion; categoria; marca; unidadMedida; } " +
+    "Precios { precioCompra; precioVenta; } " +
+    "Existencias { stockMinimo; perecible; activo; }"
+)
+@Tab(properties = "codigo, nombre, categoria.nombre, marca.nombre, precioVenta, stockMinimo, activo")
 public class Producto {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Hidden
+    private Long id;
+
+    @NotBlank(message = "El codigo del producto es obligatorio")
+    @Size(max = 30)
+    @Column(nullable = false, unique = true, length = 30)
+    private String codigo;
+
+    @NotBlank(message = "El nombre del producto es obligatorio")
+    @Size(max = 120)
+    @Column(nullable = false, length = 120)
+    private String nombre;
+
+    @Size(max = 250)
+    @Column(length = 250)
+    private String descripcion;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @DescriptionsList(descriptionProperties = "nombre")
+    private Categoria categoria;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @DescriptionsList(descriptionProperties = "nombre")
+    private Marca marca;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @DescriptionsList(descriptionProperties = "nombre, simbolo")
+    private UnidadMedida unidadMedida;
+
+    @DecimalMin(value = "0.00", message = "El precio de compra no puede ser negativo")
+    @Digits(integer = 10, fraction = 2)
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal precioCompra = BigDecimal.ZERO;
+
+    @DecimalMin(value = "0.00", message = "El precio de venta no puede ser negativo")
+    @Digits(integer = 10, fraction = 2)
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal precioVenta = BigDecimal.ZERO;
+
+    @Min(value = 0, message = "El stock minimo no puede ser negativo")
+    @Column(nullable = false)
+    private int stockMinimo = 0;
+
+    @Column(nullable = false)
+    private boolean perecible = false;
+
+    private boolean activo = true;
+
+    public boolean tieneMargenValido() {
+        return precioVenta != null
+                && precioCompra != null
+                && precioVenta.compareTo(precioCompra) >= 0;
+    }
 }
