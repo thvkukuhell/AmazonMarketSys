@@ -44,14 +44,14 @@ public class CompraService {
         }
     }
 
-    public void generarCodigosAutomaticos(Compra compra) {
+    public void prepararDetalles(Compra compra) {
         if (compra != null) {
-            compra.generarCodigosAutomaticos();
+            compra.prepararDetalles();
         }
     }
     
     public void registrarCompra(Compra compra) {
-        generarCodigosAutomaticos(compra);
+        prepararDetalles(compra);
         validarCompra(compra);
         calcularTotales(compra);
         compra.setEstadoCompra("REGISTRADA");

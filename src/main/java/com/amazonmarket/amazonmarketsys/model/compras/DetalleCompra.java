@@ -8,6 +8,10 @@ import lombok.*;
 
 @Entity
 @Getter @Setter
+@View(members =
+    "Producto { producto; codigoProducto; nombreProducto; } " +
+    "Datos { codigoDetalle; cantidad; precioUnitario; subtotal; }"
+)
 public class DetalleCompra {
 
     @Id
@@ -16,25 +20,12 @@ public class DetalleCompra {
     int id;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @Hidden
     Compra compra;
-
-    @Column(length=30)
-    @ReadOnly
-    String codigoDetalle;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @DescriptionsList(descriptionProperties="codigo, nombre")
     @Required
     Producto producto;
-    
-    @Column(length=30)
-    @ReadOnly
-    String codigoProducto;
-    
-    @Column(length=100)
-    @ReadOnly
-    String nombreProducto;
     
     int cantidad;
     
@@ -51,24 +42,25 @@ public class DetalleCompra {
         calcularSubtotal();
     }
 
-    public void generarCodigoDetalleAutomatico(String codigoCompra, int numeroDetalle) {
-        if (codigoDetalle != null && !codigoDetalle.trim().isEmpty()) {
-            return;
-        }
+    @ReadOnly
+    public String getCodigoDetalle() {
+        return id == 0 ? null : String.format("DET-%06d", id);
+    }
 
-        String prefijo = codigoCompra == null || codigoCompra.trim().isEmpty()
-            ? "DET"
-            : codigoCompra + "-DET";
-        codigoDetalle = prefijo + "-" + String.format("%03d", numeroDetalle);
+    @ReadOnly
+    public String getCodigoProducto() {
+        return producto == null ? null : producto.getCodigo();
+    }
+
+    @ReadOnly
+    public String getNombreProducto() {
+        return producto == null ? null : producto.getNombre();
     }
 
     public void sincronizarDatosProducto() {
         if (producto == null) {
             return;
         }
-
-        codigoProducto = producto.getCodigo();
-        nombreProducto = producto.getNombre();
 
         if ((precioUnitario == null || precioUnitario.signum() == 0) && producto.getPrecioCompra() != null) {
             precioUnitario = producto.getPrecioCompra();

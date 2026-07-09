@@ -33,20 +33,16 @@ public class CompraServiceTest {
     }
 
     @Test
-    public void testGenerarCodigosAutomaticosCompraYDetalle() {
+    public void testPrepararDetallesSincronizaProducto() {
         Compra compra = nuevaCompraBasica();
         DetalleCompra detalle = compra.getDetalles().iterator().next();
 
         assertNull(compra.getCodigoCompra());
-        assertNull(detalle.getCodigoDetalle());
 
         CompraService service = new CompraService();
-        service.generarCodigosAutomaticos(compra);
+        service.prepararDetalles(compra);
 
-        assertNotNull(compra.getCodigoCompra());
-        assertTrue(compra.getCodigoCompra().startsWith("COMP-"));
-        assertNotNull(detalle.getCodigoDetalle());
-        assertTrue(detalle.getCodigoDetalle().startsWith(compra.getCodigoCompra() + "-DET-"));
+        assertSame(compra, detalle.getCompra());
         assertNotNull(detalle.getCodigoProducto());
         assertEquals("PROD-001", detalle.getCodigoProducto());
         assertEquals("Arroz extra", detalle.getNombreProducto());

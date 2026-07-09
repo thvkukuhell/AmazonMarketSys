@@ -26,15 +26,6 @@ public class DetalleCompraTest {
     }
 
     @Test
-    public void testGenerarCodigoDetalleAutomatico() {
-        DetalleCompra detalle = new DetalleCompra();
-
-        detalle.generarCodigoDetalleAutomatico("COMP-ABC12345", 1);
-
-        assertEquals("COMP-ABC12345-DET-001", detalle.getCodigoDetalle());
-    }
-
-    @Test
     public void testSincronizarDatosProducto() {
         Producto producto = new Producto();
         producto.setCodigo("PROD-001");

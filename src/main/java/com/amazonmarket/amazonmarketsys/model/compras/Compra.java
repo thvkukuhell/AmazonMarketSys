@@ -17,10 +17,6 @@ public class Compra {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     int id;
 
-    @Column(length=30)
-    @ReadOnly
-    String codigoCompra;
-    
     @ManyToOne(fetch=FetchType.LAZY)
     @Required
     Proveedor proveedor;
@@ -62,28 +58,26 @@ public class Compra {
     @PrePersist
     @PreUpdate
     void antesDeGuardar() {
-        generarCodigosAutomaticos();
+        prepararDetalles();
         calcularTotales();
     }
 
-    public void generarCodigosAutomaticos() {
-        if (codigoCompra == null || codigoCompra.trim().isEmpty()) {
-            codigoCompra = "COMP-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        }
-
+    public void prepararDetalles() {
         if (detalles == null) {
             return;
         }
 
-        int numeroDetalle = 1;
         for (DetalleCompra detalle: detalles) {
             if (detalle != null) {
                 detalle.setCompra(this);
-                detalle.generarCodigoDetalleAutomatico(codigoCompra, numeroDetalle);
                 detalle.sincronizarDatosProducto();
-                numeroDetalle++;
             }
         }
+    }
+
+    @ReadOnly
+    public String getCodigoCompra() {
+        return id == 0 ? null : String.format("COMP-%06d", id);
     }
     
     public void calcularTotales() {
