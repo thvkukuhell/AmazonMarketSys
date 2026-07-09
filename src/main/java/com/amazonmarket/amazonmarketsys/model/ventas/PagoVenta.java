@@ -20,8 +20,8 @@ public class PagoVenta {
     @Hidden
     private Long id;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @DescriptionsList
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @DescriptionsList(descriptionProperties = "id, fechaVenta, total")
     private Venta venta;
     
     @Enumerated(EnumType.STRING)

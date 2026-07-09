@@ -20,12 +20,12 @@ public class DetalleVenta {
     @Hidden
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @DescriptionsList
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @DescriptionsList(descriptionProperties = "id, fechaVenta, total")
     private Venta venta;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @DescriptionsList(descriptionProperties = "nombre")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @DescriptionsList(descriptionProperties = "codigo, nombre")
     private Producto producto;
 
     @Min(value = 1, message = "La cantidad debe ser mayor a cero")
