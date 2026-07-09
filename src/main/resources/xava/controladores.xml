@@ -1,13 +1,31 @@
 <?xml version = "1.0" encoding = "ISO-8859-1"?>
-
 <!DOCTYPE controladores SYSTEM "dtds/controladores.dtd">
-
 <controladores>
     
     <controlador nombre="Compra">
         <hereda-de controlador="Typical"/>
         <accion nombre="registrarCompra" modo="detail"
             clase="com.amazonmarket.amazonmarketsys.actions.RegistrarCompraAction"/>
+    </controlador>
+
+    <controlador nombre="Venta">
+        <hereda-de controlador="Typical"/>
+        <accion nombre="calcularTotalVenta" modo="detail"
+            clase="com.amazonmarket.amazonmarketsys.actions.CalcularTotalVentaAction"/>
+        <accion nombre="aplicarDescuento" modo="detail"
+            clase="com.amazonmarket.amazonmarketsys.actions.AplicarDescuentoAction"/>
+    </controlador>
+
+    <controlador nombre="Caja">
+        <hereda-de controlador="Typical"/>
+        <accion nombre="cerrarCaja" modo="detail"
+            clase="com.amazonmarket.amazonmarketsys.actions.CerrarCajaAction"/>
+    </controlador>
+
+    <controlador nombre="Producto">
+        <hereda-de controlador="Typical"/>
+        <accion nombre="generarAlertaVencimiento" modo="detail"
+            clase="com.amazonmarket.amazonmarketsys.actions.GenerarAlertaVencimientoAction"/>
     </controlador>
     
 </controladores>

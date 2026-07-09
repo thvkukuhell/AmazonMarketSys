@@ -20,8 +20,49 @@
         <class>com.openxava.naviox.model.SSORecord</class>
         <class>com.openxava.naviox.model.User</class>
         <class>com.openxava.naviox.model.LDAPConfiguration</class>
+
+        <!-- Seguridad -->
+        <class>com.amazonmarket.amazonmarketsys.model.seguridad.Usuario</class>
+        <class>com.amazonmarket.amazonmarketsys.model.seguridad.Rol</class>
+        <class>com.amazonmarket.amazonmarketsys.model.seguridad.Permiso</class>
+
+        <!-- Catálogo -->
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.Categoria</class>
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.Marca</class>
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.Producto</class>
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.UnidadMedida</class>
+
+        <!-- Inventario -->
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.LoteProducto</class>
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.Merma</class>
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.MovimientoInventario</class>
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.InventarioFisico</class>
+
+        <!-- Personas -->
+        <class>com.amazonmarket.amazonmarketsys.model.personas.Cliente</class>
         <class>com.amazonmarket.amazonmarketsys.model.personas.Proveedor</class>
+
+        <!-- Ventas -->
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.Venta</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.DetalleVenta</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.Comprobante</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.MetodoPago</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.PagoVenta</class>
+
+        <!-- Caja -->
+        <class>com.amazonmarket.amazonmarketsys.model.caja.Caja</class>
+        <class>com.amazonmarket.amazonmarketsys.model.caja.AperturaCaja</class>
+        <class>com.amazonmarket.amazonmarketsys.model.caja.CierreCaja</class>
+        <class>com.amazonmarket.amazonmarketsys.model.caja.MovimientoCaja</class>
+
+        <!-- Promociones -->
+        <class>com.amazonmarket.amazonmarketsys.model.promociones.Promocion</class>
+        <class>com.amazonmarket.amazonmarketsys.model.promociones.ReglaDescuento</class>
+
+        <!-- Compras -->
         <class>com.amazonmarket.amazonmarketsys.model.compras.Compra</class>
+        <class>com.amazonmarket.amazonmarketsys.model.compras.DetalleCompra</class>
+
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="update"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
@@ -42,8 +83,49 @@
         <class>com.openxava.naviox.model.SSORecord</class>
         <class>com.openxava.naviox.model.User</class>
         <class>com.openxava.naviox.model.LDAPConfiguration</class>
+
+        <!-- Seguridad -->
+        <class>com.amazonmarket.amazonmarketsys.model.seguridad.Usuario</class>
+        <class>com.amazonmarket.amazonmarketsys.model.seguridad.Rol</class>
+        <class>com.amazonmarket.amazonmarketsys.model.seguridad.Permiso</class>
+
+        <!-- Catálogo -->
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.Categoria</class>
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.Marca</class>
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.Producto</class>
+        <class>com.amazonmarket.amazonmarketsys.model.catalogo.UnidadMedida</class>
+
+        <!-- Inventario -->
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.LoteProducto</class>
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.Merma</class>
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.MovimientoInventario</class>
+        <class>com.amazonmarket.amazonmarketsys.model.inventario.InventarioFisico</class>
+
+        <!-- Personas -->
+        <class>com.amazonmarket.amazonmarketsys.model.personas.Cliente</class>
         <class>com.amazonmarket.amazonmarketsys.model.personas.Proveedor</class>
+
+        <!-- Ventas -->
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.Venta</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.DetalleVenta</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.Comprobante</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.MetodoPago</class>
+        <class>com.amazonmarket.amazonmarketsys.model.ventas.PagoVenta</class>
+
+        <!-- Caja -->
+        <class>com.amazonmarket.amazonmarketsys.model.caja.Caja</class>
+        <class>com.amazonmarket.amazonmarketsys.model.caja.AperturaCaja</class>
+        <class>com.amazonmarket.amazonmarketsys.model.caja.CierreCaja</class>
+        <class>com.amazonmarket.amazonmarketsys.model.caja.MovimientoCaja</class>
+
+        <!-- Promociones -->
+        <class>com.amazonmarket.amazonmarketsys.model.promociones.Promocion</class>
+        <class>com.amazonmarket.amazonmarketsys.model.promociones.ReglaDescuento</class>
+
+        <!-- Compras -->
         <class>com.amazonmarket.amazonmarketsys.model.compras.Compra</class>
+        <class>com.amazonmarket.amazonmarketsys.model.compras.DetalleCompra</class>
+
         <properties>
             <property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost:1666"/>
         </properties>

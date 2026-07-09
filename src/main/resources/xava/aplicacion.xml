@@ -1,24 +1,34 @@
 <?xml version = "1.0" encoding = "ISO-8859-1"?>
-
 <!DOCTYPE aplicacion SYSTEM "dtds/aplicacion.dtd">
 
 <aplicacion nombre="amazonmarketsys"> 
-	
-	<!--
-	Un módulo por defecto se asume para cada
-	controlador en <modulo-defecto/> 
-	-->
-	<modulo-defecto>		  
-		<controlador nombre="Typical"/>		
-	</modulo-defecto>
-	
-	<!--
-	Podemos definir módulos adicionales, por ejemplo: 	
-	<modulo nombre="ProfesorSoloLectura">
-		<modelo nombre="Profesor"/>
-		<controlador nombre="Print"/>
-	</modulo>		
-	-->	  
-		
-</aplicacion>
+    <modulo-defecto>          
+        <controlador nombre="Typical"/>        
+    </modulo-defecto>
 
+    <modulo nombre="Producto" carpeta="Catálogo"><modelo nombre="Producto"/><controlador nombre="Producto"/></modulo>
+    <modulo nombre="Categoria" carpeta="Catálogo"><modelo nombre="Categoria"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="Marca" carpeta="Catálogo"><modelo nombre="Marca"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="UnidadMedida" carpeta="Catálogo"><modelo nombre="UnidadMedida"/><controlador nombre="Typical"/></modulo>
+
+    <modulo nombre="LoteProducto" carpeta="Inventario"><modelo nombre="LoteProducto"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="MovimientoInventario" carpeta="Inventario"><modelo nombre="MovimientoInventario"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="InventarioFisico" carpeta="Inventario"><modelo nombre="InventarioFisico"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="Merma" carpeta="Inventario"><modelo nombre="Merma"/><controlador nombre="Typical"/></modulo>
+
+    <modulo nombre="Venta" carpeta="Ventas"><modelo nombre="Venta"/><controlador nombre="Venta"/></modulo>
+    <modulo nombre="Cliente" carpeta="Ventas"><modelo nombre="Cliente"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="Comprobante" carpeta="Ventas"><modelo nombre="Comprobante"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="MetodoPago" carpeta="Ventas"><modelo nombre="MetodoPago"/><controlador nombre="Typical"/></modulo>
+
+    <modulo nombre="Caja" carpeta="Caja"><modelo nombre="Caja"/><controlador nombre="Caja"/></modulo>
+
+    <modulo nombre="Promocion" carpeta="Promociones"><modelo nombre="Promocion"/><controlador nombre="Typical"/></modulo>
+
+    <modulo nombre="Proveedor" carpeta="Compras"><modelo nombre="Proveedor"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="Compra" carpeta="Compras"><modelo nombre="Compra"/><controlador nombre="Compra"/></modulo>
+
+    <modulo nombre="Usuario" carpeta="Seguridad"><modelo nombre="Usuario"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="Rol" carpeta="Seguridad"><modelo nombre="Rol"/><controlador nombre="Typical"/></modulo>
+    <modulo nombre="Permiso" carpeta="Seguridad"><modelo nombre="Permiso"/><controlador nombre="Typical"/></modulo>
+</aplicacion>
