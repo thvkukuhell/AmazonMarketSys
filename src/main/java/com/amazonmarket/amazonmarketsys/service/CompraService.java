@@ -40,8 +40,15 @@ public class CompraService {
             compra.calcularTotales();
         }
     }
+
+    public void generarCodigosAutomaticos(Compra compra) {
+        if (compra != null) {
+            compra.generarCodigosAutomaticos();
+        }
+    }
     
     public void registrarCompra(Compra compra) {
+        generarCodigosAutomaticos(compra);
         validarCompra(compra);
         calcularTotales(compra);
         compra.setEstadoCompra("REGISTRADA");

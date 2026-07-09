@@ -3,6 +3,7 @@ package com.amazonmarket.amazonmarketsys.model.personas;
 import javax.persistence.*;
 import org.openxava.annotations.*;
 import lombok.*;
+import java.util.*;
 
 @Entity
 @Getter
@@ -10,8 +11,13 @@ import lombok.*;
 public class Proveedor {
 
     @Id
+    @Hidden
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
+    @Column(length = 30)
+    @ReadOnly
+    String codigoProveedor;
 
     @Column(length = 11)
     @Required
@@ -42,4 +48,16 @@ public class Proveedor {
 
     @Column(length = 255)
     String observacion;
+
+    @PrePersist
+    @PreUpdate
+    void antesDeGuardar() {
+        generarCodigoAutomatico();
+    }
+
+    public void generarCodigoAutomatico() {
+        if (codigoProveedor == null || codigoProveedor.trim().isEmpty()) {
+            codigoProveedor = "PROV-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        }
+    }
 }

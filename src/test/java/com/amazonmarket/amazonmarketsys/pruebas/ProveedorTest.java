@@ -1,5 +1,6 @@
 package com.amazonmarket.amazonmarketsys.pruebas;
 
+import com.amazonmarket.amazonmarketsys.model.personas.*;
 import org.openxava.tests.*;
 
 public class ProveedorTest extends ModuleTestBase {
@@ -24,5 +25,15 @@ public class ProveedorTest extends ModuleTestBase {
         assertValue("estado", "ACTIVO");
         execute("CRUD.save");
         assertNoErrors();
+    }
+
+    public void testGenerarCodigoAutomaticoProveedor() throws Exception {
+        Proveedor proveedor = new Proveedor();
+
+        assertNull(proveedor.getCodigoProveedor());
+        proveedor.generarCodigoAutomatico();
+
+        assertNotNull(proveedor.getCodigoProveedor());
+        assertTrue(proveedor.getCodigoProveedor().startsWith("PROV-"));
     }
 }

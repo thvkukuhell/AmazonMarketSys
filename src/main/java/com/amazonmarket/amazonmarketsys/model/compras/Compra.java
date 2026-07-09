@@ -13,8 +13,13 @@ import lombok.*;
 public class Compra {
     
     @Id
+    @Hidden
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     int id;
+
+    @Column(length=30)
+    @ReadOnly
+    String codigoCompra;
     
     @ManyToOne(fetch=FetchType.LAZY)
     @Required
@@ -53,6 +58,31 @@ public class Compra {
     @ElementCollection
     @ListProperties("codigoProducto, nombreProducto, cantidad, precioUnitario, subtotal")
     Collection<DetalleCompra> detalles = new ArrayList<DetalleCompra>();
+
+    @PrePersist
+    @PreUpdate
+    void antesDeGuardar() {
+        generarCodigosAutomaticos();
+        calcularTotales();
+    }
+
+    public void generarCodigosAutomaticos() {
+        if (codigoCompra == null || codigoCompra.trim().isEmpty()) {
+            codigoCompra = "COMP-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        }
+
+        if (detalles == null) {
+            return;
+        }
+
+        int numeroDetalle = 1;
+        for (DetalleCompra detalle: detalles) {
+            if (detalle != null) {
+                detalle.generarCodigoAutomatico(codigoCompra, numeroDetalle);
+                numeroDetalle++;
+            }
+        }
+    }
     
     public void calcularTotales() {
         subtotal = BigDecimal.ZERO;

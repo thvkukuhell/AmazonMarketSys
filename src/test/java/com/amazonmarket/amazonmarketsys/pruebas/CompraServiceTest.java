@@ -30,6 +30,23 @@ public class CompraServiceTest {
         assertEquals(new BigDecimal("3.60"), compra.getIgv());
         assertEquals(new BigDecimal("23.60"), compra.getTotal());
     }
+
+    @Test
+    public void testGenerarCodigosAutomaticosCompraYDetalle() {
+        Compra compra = nuevaCompraBasica();
+        DetalleCompra detalle = compra.getDetalles().iterator().next();
+
+        assertNull(compra.getCodigoCompra());
+        assertNull(detalle.getCodigoProducto());
+
+        CompraService service = new CompraService();
+        service.generarCodigosAutomaticos(compra);
+
+        assertNotNull(compra.getCodigoCompra());
+        assertTrue(compra.getCodigoCompra().startsWith("COMP-"));
+        assertNotNull(detalle.getCodigoProducto());
+        assertTrue(detalle.getCodigoProducto().startsWith(compra.getCodigoCompra() + "-DET-"));
+    }
     
     @Test
     public void testValidarCompraSinProveedor() {
@@ -83,7 +100,6 @@ public class CompraServiceTest {
         proveedor.setEstado("ACTIVO");
         
         DetalleCompra detalle = new DetalleCompra();
-        detalle.setCodigoProducto("PROD-001");
         detalle.setNombreProducto("Arroz extra");
         detalle.setCantidad(2);
         detalle.setPrecioUnitario(new BigDecimal("10.00"));
