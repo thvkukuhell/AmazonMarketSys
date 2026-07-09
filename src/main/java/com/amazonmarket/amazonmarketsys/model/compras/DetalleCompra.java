@@ -3,18 +3,37 @@ package com.amazonmarket.amazonmarketsys.model.compras;
 import java.math.*;
 import javax.persistence.*;
 import org.openxava.annotations.*;
+import com.amazonmarket.amazonmarketsys.model.catalogo.*;
 import lombok.*;
 
-@Embeddable
+@Entity
 @Getter @Setter
 public class DetalleCompra {
+
+    @Id
+    @Hidden
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    int id;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @Hidden
+    Compra compra;
+
+    @Column(length=30)
+    @ReadOnly
+    String codigoDetalle;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @DescriptionsList(descriptionProperties="codigo, nombre")
+    @Required
+    Producto producto;
     
     @Column(length=30)
     @ReadOnly
     String codigoProducto;
     
     @Column(length=100)
-    @Required
+    @ReadOnly
     String nombreProducto;
     
     int cantidad;
@@ -25,15 +44,35 @@ public class DetalleCompra {
     @Money
     BigDecimal subtotal = BigDecimal.ZERO;
 
-    public void generarCodigoAutomatico(String codigoCompra, int numeroDetalle) {
-        if (codigoProducto != null && !codigoProducto.trim().isEmpty()) {
+    @PrePersist
+    @PreUpdate
+    void antesDeGuardar() {
+        sincronizarDatosProducto();
+        calcularSubtotal();
+    }
+
+    public void generarCodigoDetalleAutomatico(String codigoCompra, int numeroDetalle) {
+        if (codigoDetalle != null && !codigoDetalle.trim().isEmpty()) {
             return;
         }
 
         String prefijo = codigoCompra == null || codigoCompra.trim().isEmpty()
             ? "DET"
             : codigoCompra + "-DET";
-        codigoProducto = prefijo + "-" + String.format("%03d", numeroDetalle);
+        codigoDetalle = prefijo + "-" + String.format("%03d", numeroDetalle);
+    }
+
+    public void sincronizarDatosProducto() {
+        if (producto == null) {
+            return;
+        }
+
+        codigoProducto = producto.getCodigo();
+        nombreProducto = producto.getNombre();
+
+        if ((precioUnitario == null || precioUnitario.signum() == 0) && producto.getPrecioCompra() != null) {
+            precioUnitario = producto.getPrecioCompra();
+        }
     }
     
     public void calcularSubtotal() {

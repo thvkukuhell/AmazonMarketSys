@@ -55,8 +55,8 @@ public class Compra {
     @Column(length=255)
     String observacion;
     
-    @ElementCollection
-    @ListProperties("codigoProducto, nombreProducto, cantidad, precioUnitario, subtotal")
+    @OneToMany(mappedBy="compra", cascade=CascadeType.ALL, orphanRemoval=true)
+    @ListProperties("codigoDetalle, producto.nombre, codigoProducto, nombreProducto, cantidad, precioUnitario, subtotal")
     Collection<DetalleCompra> detalles = new ArrayList<DetalleCompra>();
 
     @PrePersist
@@ -78,7 +78,9 @@ public class Compra {
         int numeroDetalle = 1;
         for (DetalleCompra detalle: detalles) {
             if (detalle != null) {
-                detalle.generarCodigoAutomatico(codigoCompra, numeroDetalle);
+                detalle.setCompra(this);
+                detalle.generarCodigoDetalleAutomatico(codigoCompra, numeroDetalle);
+                detalle.sincronizarDatosProducto();
                 numeroDetalle++;
             }
         }

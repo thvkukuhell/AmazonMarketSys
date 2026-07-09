@@ -26,6 +26,9 @@ public class CompraService {
             if (detalle == null) {
                 throw new IllegalArgumentException("El detalle de compra no puede estar vacio");
             }
+            if (detalle.getProducto() == null) {
+                throw new IllegalArgumentException("Debe seleccionar un producto");
+            }
             if (detalle.getCantidad() <= 0) {
                 throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
             }

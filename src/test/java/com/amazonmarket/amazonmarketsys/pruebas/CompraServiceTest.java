@@ -6,6 +6,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 import com.amazonmarket.amazonmarketsys.model.compras.*;
+import com.amazonmarket.amazonmarketsys.model.catalogo.*;
 import com.amazonmarket.amazonmarketsys.model.personas.*;
 import com.amazonmarket.amazonmarketsys.service.*;
 
@@ -37,15 +38,18 @@ public class CompraServiceTest {
         DetalleCompra detalle = compra.getDetalles().iterator().next();
 
         assertNull(compra.getCodigoCompra());
-        assertNull(detalle.getCodigoProducto());
+        assertNull(detalle.getCodigoDetalle());
 
         CompraService service = new CompraService();
         service.generarCodigosAutomaticos(compra);
 
         assertNotNull(compra.getCodigoCompra());
         assertTrue(compra.getCodigoCompra().startsWith("COMP-"));
+        assertNotNull(detalle.getCodigoDetalle());
+        assertTrue(detalle.getCodigoDetalle().startsWith(compra.getCodigoCompra() + "-DET-"));
         assertNotNull(detalle.getCodigoProducto());
-        assertTrue(detalle.getCodigoProducto().startsWith(compra.getCodigoCompra() + "-DET-"));
+        assertEquals("PROD-001", detalle.getCodigoProducto());
+        assertEquals("Arroz extra", detalle.getNombreProducto());
     }
     
     @Test
@@ -100,7 +104,10 @@ public class CompraServiceTest {
         proveedor.setEstado("ACTIVO");
         
         DetalleCompra detalle = new DetalleCompra();
-        detalle.setNombreProducto("Arroz extra");
+        Producto producto = new Producto();
+        producto.setCodigo("PROD-001");
+        producto.setNombre("Arroz extra");
+        detalle.setProducto(producto);
         detalle.setCantidad(2);
         detalle.setPrecioUnitario(new BigDecimal("10.00"));
         
