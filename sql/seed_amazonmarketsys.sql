@@ -11762,7 +11762,6 @@ FROM
     LIMIT 1000
 ) AS datos;
 
-FROM inventariofisico;
 
 SET FOREIGN_KEY_CHECKS = 1;
 SET SQL_SAFE_UPDATES = 1;
