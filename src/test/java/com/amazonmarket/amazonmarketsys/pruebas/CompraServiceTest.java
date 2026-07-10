@@ -28,8 +28,8 @@ public class CompraServiceTest {
         service.calcularTotales(compra);
         
         assertEquals(new BigDecimal("20.00"), compra.getSubtotal().setScale(2));
-        assertEquals(new BigDecimal("3.60"), compra.getIgv());
-        assertEquals(new BigDecimal("23.60"), compra.getTotal());
+        assertEquals(new BigDecimal("0.00"), compra.getIgv());
+        assertEquals(new BigDecimal("20.00"), compra.getTotal());
     }
 
     @Test

@@ -94,7 +94,7 @@ public class Compra {
             }
         }
         
-        igv = subtotal.multiply(new BigDecimal("0.18")).setScale(2, RoundingMode.HALF_UP);
+        igv = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
         total = subtotal.add(igv).setScale(2, RoundingMode.HALF_UP);
     }
 }
