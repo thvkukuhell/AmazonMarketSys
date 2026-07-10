@@ -11711,7 +11711,62 @@ INSERT INTO cierrecaja (id, diferencia, fechaCierre, montoFinal, observacion, re
 UPDATE movimientoinventario
 SET tipoMovimiento = 'ENTRADA_COMPRA';
 
+USE amazonmarketsys_db;
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE FROM inventariofisico
+WHERE id > 0;
+
+ALTER TABLE inventariofisico AUTO_INCREMENT = 1;
+
+INSERT INTO inventariofisico
+(
+    cantidadFisica,
+    cantidadSistema,
+    diferencia,
+    fechaConteo,
+    observacion,
+    responsable,
+    producto_id
+)
+SELECT
+    datos.cantidadSistema + datos.diferencia,
+    datos.cantidadSistema,
+    datos.diferencia,
+    NOW(),
+    CASE
+        WHEN datos.diferencia = 0
+            THEN 'El conteo coincide con el sistema'
+        WHEN datos.diferencia > 0
+            THEN 'Se encontraron unidades adicionales'
+        ELSE
+            'Se encontraron unidades faltantes'
+    END,
+    'Encargado de almacén',
+    datos.id
+FROM
+(
+    SELECT
+        p.id,
+        20 + MOD(p.id * 7, 181) AS cantidadSistema,
+        CASE MOD(p.id, 5)
+            WHEN 0 THEN -3
+            WHEN 1 THEN 0
+            WHEN 2 THEN 2
+            WHEN 3 THEN -1
+            ELSE 1
+        END AS diferencia
+    FROM producto p
+    ORDER BY p.id
+    LIMIT 1000
+) AS datos;
+
+FROM inventariofisico;
+
 SET FOREIGN_KEY_CHECKS = 1;
 SET SQL_SAFE_UPDATES = 1;
+
+
 COMMIT;
 
