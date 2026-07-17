@@ -33,14 +33,17 @@ public class CierreCaja {
 
     @DecimalMin(value = "0.00")
     @Digits(integer = 10, fraction = 2)
+    @ReadOnly
     private BigDecimal totalVentas = BigDecimal.ZERO;
 
     @DecimalMin(value = "0.00")
     @Digits(integer = 10, fraction = 2)
+    @ReadOnly
     private BigDecimal totalIngresos = BigDecimal.ZERO;
 
     @DecimalMin(value = "0.00")
     @Digits(integer = 10, fraction = 2)
+    @ReadOnly
     private BigDecimal totalEgresos = BigDecimal.ZERO;
 
     @DecimalMin(value = "0.00")

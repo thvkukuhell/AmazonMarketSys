@@ -23,9 +23,9 @@ public class Producto {
     @Hidden
     private Long id;
 
-    @NotBlank(message = "El codigo del producto es obligatorio")
+    @ReadOnly
     @Size(max = 30)
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(unique = true, length = 30)
     private String codigo;
 
     @NotBlank(message = "El nombre del producto es obligatorio")
@@ -68,9 +68,22 @@ public class Producto {
 
     private boolean activo = true;
 
+    @PrePersist
+    @PreUpdate
+    public void antesDeGuardar() {
+        if (codigo == null || codigo.trim().isEmpty()) {
+            codigo = "PROD-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        }
+    }
+
     public boolean tieneMargenValido() {
         return precioVenta != null
                 && precioCompra != null
                 && precioVenta.compareTo(precioCompra) >= 0;
+    }
+
+    @AssertTrue(message = "El precio de venta no puede ser menor que el precio de compra")
+    public boolean isMargenValido() {
+        return tieneMargenValido();
     }
 }

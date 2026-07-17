@@ -2,8 +2,8 @@ package com.amazonmarket.amazonmarketsys.pruebas;
 
 import java.math.*;
 import java.util.*;
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import com.amazonmarket.amazonmarketsys.model.compras.*;
 import com.amazonmarket.amazonmarketsys.model.personas.*;
 import com.amazonmarket.amazonmarketsys.service.*;

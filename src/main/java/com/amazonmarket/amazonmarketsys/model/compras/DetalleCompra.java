@@ -33,11 +33,12 @@ public class DetalleCompra {
     BigDecimal precioUnitario = BigDecimal.ZERO;
     
     @Money
+    @ReadOnly
     BigDecimal subtotal = BigDecimal.ZERO;
 
     @PrePersist
     @PreUpdate
-    void antesDeGuardar() {
+    public void antesDeGuardar() {
         sincronizarDatosProducto();
         calcularSubtotal();
     }

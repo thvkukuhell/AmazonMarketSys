@@ -40,12 +40,15 @@ public class Compra {
     String estadoCompra = "REGISTRADA";
     
     @Money
+    @ReadOnly
     BigDecimal subtotal = BigDecimal.ZERO;
     
     @Money
+    @ReadOnly
     BigDecimal igv = BigDecimal.ZERO;
     
     @Money
+    @ReadOnly
     BigDecimal total = BigDecimal.ZERO;
     
     @Column(length=255)
@@ -57,7 +60,10 @@ public class Compra {
 
     @PrePersist
     @PreUpdate
-    void antesDeGuardar() {
+    public void antesDeGuardar() {
+        if (fechaCompra == null) {
+            fechaCompra = LocalDate.now();
+        }
         prepararDetalles();
         calcularTotales();
     }

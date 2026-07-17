@@ -11,18 +11,19 @@ import javax.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.openxava.annotations.*;
+import java.math.RoundingMode;
 
 @Entity 
 @Getter
 @Setter
 @View(members = 
-        "Datos de venta { fechaVenta; cliente; caja; comprobante; estado; } " +
+        "Datos de venta { codigoVenta; fechaVenta; cliente; caja; comprobante; estado; } " +
         "Importes { subtotal; porcentajeDescuentoManual; descuentoTotal; total; } " +
         "Detalle de productos { detalles; } " +
         "Pagos { pagos; } " +
         "Observacion { observacion; }"
 )
-@Tab(properties = "fechaVenta, cliente.nombres, comprobante, subtotal, descuentoTotal, total, estado")
+@Tab(properties = "codigoVenta, fechaVenta, cliente.nombres, comprobante, subtotal, descuentoTotal, total, estado")
 public class Venta {
     public enum EstadoVenta {
         REGISTRADA,
@@ -33,6 +34,11 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Hidden
     private Long id;
+
+    @ReadOnly
+    public String getCodigoVenta() {
+        return id == null ? null : String.format("VENT-%06d", id);
+    }
 
     @ReadOnly
     private LocalDateTime fechaVenta = LocalDateTime.now();
@@ -85,9 +91,35 @@ public class Venta {
     @Column(length = 250)
     private String observacion;
 
+    public void prepararDetalles() {
+        if (detalles == null) {
+            return;
+        }
+        for (DetalleVenta detalle : detalles) {
+            if (detalle != null) {
+                detalle.setVenta(this);
+                detalle.sincronizarDatosProducto();
+                detalle.calcularSubtotal();
+            }
+        }
+    }
+
     @PrePersist
     @PreUpdate
+    public void antesDeGuardar() {
+        validarEstadoCaja();
+        calcularTotales();
+    }
+
+    public void validarEstadoCaja() {
+        if (!com.amazonmarket.amazonmarketsys.validators.CajaAbiertaValidator.cajaEsAbierta(caja)) {
+            throw new IllegalStateException("La caja debe estar abierta para registrar una venta");
+        }
+    }
+
     public void calcularTotales() {
+        prepararDetalles();
+
         subtotal = detalles.stream()
                 .map(DetalleVenta::getSubtotal)
                 .filter(Objects::nonNull)
@@ -95,7 +127,7 @@ public class Venta {
 
         descuentoTotal = subtotal
                 .multiply(porcentajeDescuentoManual)
-                .divide(BigDecimal.valueOf(100));
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
         total = subtotal.subtract(descuentoTotal);
 

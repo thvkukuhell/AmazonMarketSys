@@ -139,17 +139,20 @@ public class ReporteService {
 
     public List<ReporteVentas> productosMasVendidos() {
         List<Object[]> filas = XPersistence.getManager()
-            .createQuery("select dv.producto, sum(dv.cantidad), sum(dv.subtotal) " +
+            .createQuery("select dv.producto.id, sum(dv.cantidad), sum(dv.subtotal) " +
                 "from DetalleVenta dv where dv.venta.estado = 'REGISTRADA' " +
-                "group by dv.producto order by sum(dv.subtotal) desc")
+                "group by dv.producto.id order by sum(dv.subtotal) desc")
             .getResultList();
 
         List<ReporteVentas> resultado = new ArrayList<ReporteVentas>();
 
         for (Object[] fila : filas) {
-            Producto producto = (Producto) fila[0];
+            Long productoId = (Long) fila[0];
             Long cantidad = (Long) fila[1];
             BigDecimal total = (BigDecimal) fila[2];
+
+            Producto producto = XPersistence.getManager().find(Producto.class, productoId);
+            if (producto == null) continue;
 
             ReporteVentas reporte = new ReporteVentas();
             reporte.setProducto(producto);

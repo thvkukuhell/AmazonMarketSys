@@ -78,4 +78,15 @@ public class LoteProducto {
 
         cantidadActual += cantidad;
     }
+
+    @AssertTrue(message = "La fecha de vencimiento debe ser posterior a la fecha de ingreso")
+    private boolean isFechaVencimientoValida() {
+        return com.amazonmarket.amazonmarketsys.validators.FechaVencimientoValidator.esFechaVencimientoValida(fechaIngreso, fechaVencimiento);
+    }
+
+    @AssertTrue(message = "La fecha de vencimiento es obligatoria para productos perecibles")
+    private boolean isFechaVencimientoRequerida() {
+        boolean perecible = producto != null && producto.isPerecible();
+        return com.amazonmarket.amazonmarketsys.validators.FechaVencimientoValidator.esObligatoriaPorProducto(perecible, fechaVencimiento);
+    }
 }

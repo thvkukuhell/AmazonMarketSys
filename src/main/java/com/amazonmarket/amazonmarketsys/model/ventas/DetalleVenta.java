@@ -47,14 +47,38 @@ public class DetalleVenta {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal subtotal = BigDecimal.ZERO;
 
+    public void sincronizarDatosProducto() {
+        if (producto == null) {
+            return;
+        }
+        if ((precioUnitario == null || precioUnitario.compareTo(BigDecimal.ZERO) == 0) && producto.getPrecioVenta() != null) {
+            precioUnitario = producto.getPrecioVenta();
+        }
+    }
+
     @PrePersist
     @PreUpdate
+    public void antesDeGuardar() {
+        sincronizarDatosProducto();
+        calcularSubtotal();
+    }
+
     public void calcularSubtotal() {
+        if (precioUnitario == null) {
+            precioUnitario = BigDecimal.ZERO;
+        }
         BigDecimal importe = precioUnitario.multiply(BigDecimal.valueOf(cantidad));
         subtotal = importe.subtract(descuento);
 
         if (subtotal.compareTo(BigDecimal.ZERO) < 0) {
             subtotal = BigDecimal.ZERO;
         }
+    }
+
+    @AssertTrue(message = "El descuento no puede ser mayor que el importe total del detalle")
+    private boolean isDescuentoValido() {
+        if (descuento == null || precioUnitario == null) return true;
+        BigDecimal totalDetalle = precioUnitario.multiply(BigDecimal.valueOf(cantidad));
+        return com.amazonmarket.amazonmarketsys.validators.PrecioVentaValidator.esDescuentoValido(descuento, totalDetalle);
     }
 }
